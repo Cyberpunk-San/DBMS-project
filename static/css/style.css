@@ -1,0 +1,218 @@
+/* =============================================
+   WHO DUNNIT BRO? — DETECTIVE THEME
+   ============================================= */
+.detective-theme {
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  color: #ffffff;               /* <-- CHANGED: all body text is now pure white */
+  font-family: 'Courier New', monospace;
+  min-height: 100vh;
+  cursor: url('/static/images/magnifying_glass.png'), auto;
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+.navbar {
+  background: #000 !important;
+Perhaps  border-bottom: 3px solid #ffcc00 !important;
+  box-shadow: 0 2px 10px rgba(255, 204, 0, 0.3);
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.7rem;
+  color: #ffcc00 !important;
+  text-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+}
+.navbar-nav .nav-link {
+  color: #ddd !important;       /* keep light but readable */
+  font-weight: 600;
+}
+.navbar-nav .nav-link:hover {
+  color: #ffcc00 !important;
+}
+
+/* =============================================
+   CARDS & LISTS
+   ============================================= */
+.card {
+  background: #222 !important;
+  border: 1px solid #444 !important;
+  border-radius: 10px !important;
+  overflow: visible !important;
+  transition: all 0.3s ease;
+  color: #ffffff;               /* <-- CHANGED: card text */
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255, 204, 0, 0.4) !important;
+  border-color: #ffcc00 !important;
+}
+
+.card-header {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ffffff;               /* <-- CHANGED: header text */
+  border-bottom: 2px solid #ffcc00;
+}
+
+/* Card Headers - Colorful */
+.bg-dark    { background: #1a1a1a !important; }
+.bg-info    { background: #00b7eb !important; color: white !important; }
+.bg-warning { background: #ff9500 !important; color: black !important; }
+.bg-primary { background: #0066cc !important; }
+
+/* List Items - Full Width & Visible */
+.list-group-item {
+  background: #2a2a2a !important;
+  border-color: #444 !important;
+  padding: 0.9rem 1.2rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem;
+  word-break: break-word;
+  color: #ffffff;               /* <-- CHANGED: list text */
+}
+.list-group-item:hover {
+  background: #333 !important;
+}
+
+/* Text inside lists */
+.list-group-item strong,
+.list-group-item .badge,
+.list-group-item small {
+  color: #ffcc00 !important;    /* keep accent colour for emphasis */
+}
+.list-group-item .text-muted {
+  color: #bbbbbb !important;    /* slightly lighter muted text */
+}
+
+/* =============================================
+   ALERTS
+   ============================================= */
+.alert {
+  border-radius: 8px;
+  font-weight: 600;
+}
+.alert-success {
+  background: #004d00 !important;
+  border: 1px solid #00cc00 !important;
+  color: #ccffcc !important;
+}
+.alert-danger {
+  background: #4d0000 !important;
+  border: 1px solid #ff3333 !important;
+  color: #ffcccc !important;
+}
+.alert-warning {
+  background: #332200 !important;
+  border: 1px solid #ffaa33 !important;
+  color: #ffcc80 !important;
+}
+
+/* =============================================
+   FORMS & INPUTS
+   ============================================= */
+.form-control, .form-select {
+  background: #333 !important;
+  border: 1px solid #555 !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+}
+.form-control:focus, .form-select:focus {
+  border-color: #ffcc00 !important;
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.5) !important;
+  background: #3a3a3a !important;
+}
+
+/* Radio buttons */
+.form-check-input {
+  border: 2px solid #666;
+}
+.form-check-input:checked {
+  background-color: #ffcc00;
+  border-color: #ffcc00;
+}
+.form-check-label {
+  color: #ffcc00;
+  font-weight: 600;
+}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+.reveal {
+  animation: fadeInUp 0.6s ease-out;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.easter-egg {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: gold;
+  color: black;
+  padding: 15px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 0 20px rgba(255,215,0,0.9);
+  animation: pulse 1.5s infinite;
+  z-index: 9999;
+}
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 768px) {
+  .list-group-item {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+  .list-group-item > div:last-child {
+    margin-top: 0.5rem;
+    align-self: flex-end;
+  }
+}
+
+/* -------------------------------------------------
+   EXTRA: Ensure all text on dark backgrounds is white
+   ------------------------------------------------- */
+.card-body,
+.list-group-item,
+.alert,
+.form-control,
+.form-select,
+.text-muted,
+small,
+p,
+h1, h2, h3, h4, h5, h6,
+.navbar .nav-link,
+.card-title,
+.card-text {
+  color: #ffffff !important;
+}
+
+/* Keep yellow accents */
+.text-warning,
+.badge.bg-warning,
+.btn-warning,
+.btn-warning:hover,
+.form-check-label,
+strong,
+.list-group-item strong,
+a {
+  color: #ffcc00 !important;
+}
+a:hover {
+  color: #ffeb99 !important;
+}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Edit Case{% endblock %}
+{% block content %}
+<div class="card reveal">
+  <div class="card-header bg-primary text-white">Edit Case</div>
+  <div class="card-body">
+    <form method="POST">
+      <div class="mb-3"><input type="text" name="title" class="form-control" value="{{ case.title }}" required></div>
+      <div class="mb-3"><textarea name="description" class="form-control" rows="4">{{ case.description or '' }}</textarea></div>
+      {% if session.is_admin %}
+      <div class="mb-3">
+        <select name="detective_id" class="form-select">
+          {% for d in detectives %}
+          <option value="{{ d.detective_id }}" {% if d.detective_id == case.detective_id %}selected{% endif %}>{{ d.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {% endif %}
+      <button type="submit" class="btn btn-success">Save</button>
+      <a href="{{ url_for('case_detail', case_id=case.case_id) }}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

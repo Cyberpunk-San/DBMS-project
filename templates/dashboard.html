@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Your Cases 
+  {% if session.is_admin %}<span class="badge bg-warning">Admin View</span>{% endif %}
+</h2>
+
+<div class="d-flex justify-content-between mb-3">
+  <a href="{{ url_for('add_case') }}" class="btn btn-success">+ New Case</a>
+  <form class="d-flex" method="GET">
+    <input type="search" name="q" class="form-control me-2" placeholder="Search cases…" value="{{ request.args.get('q','') }}">
+    <button class="btn btn-outline-light" type="submit">Search</button>
+  </form>
+</div>
+
+<div class="row">
+  {% if cases %}
+    {% for c in cases %}
+    <div class="col-md-4 mb-3">
+      <div class="card reveal h-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ c.title }}</h5>
+          <p class="card-text text-muted small">Assigned: {{ c.detective_name or '—' }}</p>
+          <p class="card-text"><strong>Status:</strong>
+            <span class="badge bg-{% if c.status == 'Solved' %}success{% elif c.status == 'Under Investigation' %}warning{% else %}secondary{% endif %}">
+              {{ c.status }}
+            </span>
+          </p>
+          <a href="{{ url_for('case_detail', case_id=c.case_id) }}" class="btn btn-primary mt-auto">Open</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="col-12">
+      <div class="alert alert-info text-center">No cases yet. <a href="{{ url_for('add_case') }}">Create one!</a></div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

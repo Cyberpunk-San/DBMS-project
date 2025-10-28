@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Add Clue – {{ case.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card reveal">
+      <div class="card-header bg-info text-white">
+        <h5 class="mb-0">Add Clue to <em>{{ case.title }}</em></h5>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label">Clue Description</label>
+            <textarea name="description" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Evidence Impact (optional)</label>
+                <input type="number" name="impact" class="form-control" placeholder="0" min="0">
+                <small class="text-muted">Points added to a suspect’s score</small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Link to Suspect (optional)</label>
+                <select name="suspect_id" class="form-select">
+                  <option value="">— none —</option>
+                  {% for s in suspects %}
+                  <option value="{{ s.suspect_id }}">{{ s.name }} ({{ s.evidence_score }} pts)</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save Clue</button>
+          <a href="{{ url_for('case_detail', case_id=case.case_id) }}" class="btn btn-outline-secondary">Back</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

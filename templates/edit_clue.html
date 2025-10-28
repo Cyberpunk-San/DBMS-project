@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Edit Clue{% endblock %}
+{% block content %}
+<div class="card reveal">
+  <div class="card-header bg-info text-white">Edit Clue</div>
+  <div class="card-body">
+    <form method="POST">
+      <textarea name="description" class="form-control" rows="4" required>{{ clue.description }}</textarea>
+      <button type="submit" class="btn btn-primary mt-3">Save</button>
+      <a href="{{ url_for('case_detail', case_id=clue.case_id) }}" class="btn btn-secondary mt-3">Back</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

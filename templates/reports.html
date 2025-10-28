@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Reports & Analytics{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Reports Dashboard</h2>
+
+<div class="row">
+  <!-- Cases per Detective -->
+  <div class="col-md-6 mb-4">
+    <div class="card reveal">
+      <div class="card-header bg-primary text-white">Cases per Detective</div>
+      <canvas id="detectiveChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Solved vs Unsolved -->
+  <div class="col-md-6 mb-4">
+    <div class="card reveal">
+      <div class="card-header bg-success text-white">Case Status</div>
+      <canvas id="statusChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card text-center reveal">
+      <div class="card-body">
+        <h5 class="card-title">Avg Evidence Score</h5>
+        <p class="display-4">{{ avg_score }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Detective Chart
+  new Chart(document.getElementById('detectiveChart'), {
+    type: 'bar',
+    data: {
+      labels: [{% for d in cases_per_detective %}'{{ d.name }}',{% endfor %}],
+      datasets: [{
+        label: 'Cases',
+        data: [{% for d in cases_per_detective %}{{ d.total_cases }},{% endfor %}],
+        backgroundColor: '#36A2EB'
+      }]
+    },
+    options: { plugins: { legend: { display: false } } }
+  });
+
+  // Status Chart
+  new Chart(document.getElementById('statusChart'), {
+    type: 'doughnut',
+    data: {
+      labels: [{% for s in status_stats %}'{{ s.status }}',{% endfor %}],
+      datasets: [{
+        data: [{% for s in status_stats %}{{ s.count }},{% endfor %}],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+      }]
+    }
+  });
+</script>
+{% endblock %}

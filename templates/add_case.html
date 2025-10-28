@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Add New Case{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card reveal">
+      <div class="card-header bg-primary text-white text-center">
+        <h4 class="mb-0">New Case File</h4>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label">Case Title <span class="text-danger">*</span></label>
+            <input type="text" name="title" class="form-control" placeholder="e.g. The Missing Diamond" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4" placeholder="Details of the crime scene, witnesses, etc."></textarea>
+          </div>
+
+          {% if session.is_admin %}
+          <!-- Admin sees detective dropdown -->
+          <div class="mb-3">
+            <label class="form-label">Assign Detective <span class="text-danger">*</span></label>
+            <select name="detective_id" class="form-select" required>
+              <option value="" disabled selected>Select a detective</option>
+              {% for d in detectives %}
+              <option value="{{ d.detective_id }}">
+                {{ d.name }} ({{ d.username }})
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          {% else %}
+          <!-- Non-admin: auto-assigned -->
+          <div class="alert alert-info">
+            <strong>Assigned to:</strong> {{ session.name }} (You)
+            <input type="hidden" name="detective_id" value="{{ session.detective_id }}">
+          </div>
+          {% endif %}
+
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success flex-fill">Create Case</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary flex-fill">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}{{ case.title }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>{{ case.title }}</h2>
+  <div>
+    <a href="{{ url_for('add_clue', case_id=case.case_id) }}" class="btn btn-info btn-sm">+ Clue</a>
+    <a href="{{ url_for('add_suspect', case_id=case.case_id) }}" class="btn btn-warning btn-sm">+ Suspect</a>
+    <a href="{{ url_for('edit_case', case_id=case.case_id) }}" class="btn btn-sm btn-outline-light">Edit Case</a>
+    <button class="btn btn-sm btn-outline-danger delete-case" data-id="{{ case.case_id }}">Delete Case</button>
+  </div>
+</div>
+
+<div class="row">
+  <!-- CASE INFO -->
+  <div class="col-md-4">
+    <div class="card mb-3 reveal">
+      <div class="card-header bg-dark text-white">Case Details</div>
+      <div class="card-body">
+        <p><strong>Status:</strong> <span class="badge bg-{% if case.status == 'Solved' %}success{% elif case.status == 'Under Investigation' %}warning{% else %}secondary{% endif %}">{{ case.status }}</span></p>
+        <p><strong>Detective:</strong> {{ case.detective_name or '—' }}</p>
+        <p><strong>Description:</strong> {{ case.description or '—' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUES -->
+  <div class="col-md-4">
+    <div class="card mb-3 reveal">
+      <div class="card-header bg-info text-white">Clues ({{ clues|length }})</div>
+      <ul class="list-group list-group-flush">
+        {% for clue in clues %}
+        <li class="list-group-item">
+          <strong>{{ clue.date_added.strftime('%b %d %H:%M') }}</strong><br>
+          {{ clue.description }}
+          <div class="float-end">
+            <a href="{{ url_for('edit_clue', clue_id=clue.clue_id) }}" class="btn btn-sm btn-outline-light">Edit</a>
+            <button class="btn btn-sm btn-outline-danger delete-clue" data-id="{{ clue.clue_id }}">Delete</button>
+          </div>
+        </li>
+        {% else %}
+        <li class="list-group-item text-muted">No clues yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- SUSPECTS -->
+  <div class="col-md-4">
+    <div class="card mb-3 reveal">
+      <div class="card-header bg-warning text-dark">Suspects ({{ suspects|length }})</div>
+      <ul class="list-group list-group-flush">
+        {% for suspect in suspects %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ suspect.name }}</strong>
+            {% if suspect.is_guilty %}<span class="badge bg-danger ms-2">GUILTY</span>{% endif %}
+            <br><small class="text-muted">{{ suspect.remarks or '—' }}</small>
+          </div>
+          <div>
+            <span class="badge bg-primary rounded-pill me-2">{{ suspect.evidence_score }} pts</span>
+            <a href="{{ url_for('edit_suspect', suspect_id=suspect.suspect_id) }}" class="btn btn-sm btn-outline-light">Edit</a>
+            <button class="btn btn-sm btn-outline-danger delete-suspect" data-id="{{ suspect.suspect_id }}">Delete</button>
+          </div>
+        </li>
+        {% else %}
+        <li class="list-group-item text-muted">No suspects yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% if case.status != 'Solved' and suspects|length > 0 %}
+<div class="text-center mt-4">
+  <button class="btn btn-danger solve-btn" data-case-id="{{ case.case_id }}">Solve Case</button>
+</div>
+
+<!-- GUILTY SUSPECT RADIO BUTTONS -->
+<div class="mt-4 text-center">
+  <p class="mb-2"><strong>Select the guilty suspect:</strong></p>
+  {% for suspect in suspects %}
+  <div class="form-check form-check-inline">
+    <input class="form-check-input guilty-radio" type="radio" name="guilty_suspect" value="{{ suspect.suspect_id }}" id="sus{{ suspect.suspect_id }}">
+    <label class="form-check-label" for="sus{{ suspect.suspect_id }}">{{ suspect.name }}</label>
+  </div>
+  {% endfor %}
+</div>
+{% elif case.status != 'Solved' %}
+<div class="text-center mt-4">
+  <div class="alert alert-warning">Add at least one suspect to solve the case.</div>
+</div>
+{% endif %}
+
+{% endblock %}

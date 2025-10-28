@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Edit Suspect{% endblock %}
+{% block content %}
+<div class="card reveal">
+  <div class="card-header bg-warning text-dark">Edit Suspect</div>
+  <div class="card-body">
+    <form method="POST">
+      <input type="text" name="name" class="form-control mb-3" value="{{ suspect.name }}" required>
+      <input type="number" name="evidence_score" class="form-control mb-3" value="{{ suspect.evidence_score }}" min="0">
+      <textarea name="remarks" class="form-control mb-3" rows="2">{{ suspect.remarks or '' }}</textarea>
+      <button type="submit" class="btn btn-warning">Save</button>
+      <a href="{{ url_for('case_detail', case_id=suspect.case_id) }}" class="btn btn-secondary">Back</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
