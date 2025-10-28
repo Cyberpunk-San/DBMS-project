@@ -8,7 +8,31 @@ app = Flask(__name__)
 app.secret_key = 'CHANGE_ME_TO_STRONG_RANDOM_SECRET'  # CHANGE THIS!
 
 init_db(app)
-
+# Run DB init on startup (for Render's stateless env)
+with app.app_context():
+    cur = mysql.connection.cursor()
+    # Create tables if missing (from your schema.sql)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS detectives (
+            detective_id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            username VARCHAR(50) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    # Add other tables: cases, clues, suspects...
+    # (Copy full schema from schema.sql here, using CREATE TABLE IF NOT EXISTS)
+    
+    # Insert default admin if missing
+    cur.execute("SELECT COUNT(*) FROM detectives WHERE username='admin'")
+    if cur.fetchone()['COUNT(*)'] == 0:
+        hashed = bcrypt.hashpw(b'admin123', bcrypt.gensalt()).decode('utf-8')
+        cur.execute("INSERT INTO detectives (name, username, password) VALUES (%s, %s, %s)",
+                    ('Admin Holmes', 'admin', hashed))
+    
+    mysql.connection.commit()
+    cur.close()
 
 # ==========================================================
 # DECORATORS
@@ -362,7 +386,6 @@ def solve_case(case_id):
     cur.execute("UPDATE suspects SET is_guilty = TRUE WHERE suspect_id = %s", [guilty_id])
     mysql.connection.commit()
 
-    # Count solved cases for current detective
     cur.execute("""
         SELECT COUNT(*) AS solved 
         FROM cases 

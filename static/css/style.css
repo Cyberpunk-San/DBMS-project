@@ -14,7 +14,7 @@
    ============================================= */
 .navbar {
   background: #000 !important;
-Perhaps  border-bottom: 3px solid #ffcc00 !important;
+  border-bottom: 3px solid #ffcc00 !important;
   box-shadow: 0 2px 10px rgba(255, 204, 0, 0.3);
 }
 .navbar-brand {
@@ -211,8 +211,8 @@ h1, h2, h3, h4, h5, h6,
 strong,
 .list-group-item strong,
 a {
-  color: #ffcc00 !important;
+    color: #ffcc00 !important;
 }
 a:hover {
-  color: #ffeb99 !important;
+    color: #ffeb99 !important;
 }
