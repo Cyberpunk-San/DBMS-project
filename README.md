@@ -1,6 +1,3 @@
-**`README.md` — Clean & Focused**
-
-```markdown
 # Who Dunnit Bro?  
 **Multi-Detective Crime Investigation App**
 
@@ -21,12 +18,9 @@
 
 ## LOGIN CREDENTIALS
 
-| Username | Password | Role |
-|--------|----------|------|
-| `admin` | `admin123` | Admin |
-| `watson` | `watson123` | Detective |
-| `lestrade` | `lestrade123` | Detective |
-
+| Username | Password | Role  |
+|--------  |----------  |------ |        
+| `admin`  | `admin123`| Admin | 
 > New user? Go to **/register**
 
 ---
@@ -105,13 +99,6 @@ C:.
         app.cpython-313.pyc
         config.cpython-313.pyc
 ```
-
 ---
-
 **Ready to solve crimes. Case open.**
-```
 
----
-
-**Just save this as `README.md` in your project root.**  
-Clean, clear, and ready for action.
